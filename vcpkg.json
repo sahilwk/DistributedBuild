@@ -1,0 +1,8 @@
+{
+  "name": "distributed-build",
+  "version": "0.1.0",
+  "builtin-baseline": "3aea538b2bb21a586502c67b00eb474fdd2e3098",
+  "dependencies": [
+    "grpc"
+  ]
+}

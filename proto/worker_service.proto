@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package distbuild.workersvc;
+
+// WorkerService is the coordinator -> worker RPC boundary. The coordinator
+// is always the client here; a worker never calls another worker, and a
+// worker never calls the coordinator back through this service.
+service WorkerService {
+  // Trivial liveness/wiring check for Day 1. Becomes the heartbeat RPC's
+  // sibling once lease tracking exists (Days 5-6) — kept separate from
+  // heartbeats because "are you reachable right now" and "are you still
+  // alive and making progress" are different questions with different
+  // callers and different failure semantics.
+  rpc Ping(PingRequest) returns (PingResponse);
+}
+
+message PingRequest {
+  // Identifies the caller in logs/debugging; not used for routing.
+  string caller_id = 1;
+}
+
+message PingResponse {
+  string worker_id = 1;
+}

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package distbuild.buildsvc;
+
+// BuildService is the CLI -> coordinator RPC boundary. Workers never see
+// this service; they only ever talk to the coordinator through
+// WorkerService. Keeping the two services separate (rather than one
+// "CoordinatorService" multiplexing both roles) means the CLI-facing
+// contract can evolve (e.g. add auth, change BuildRequest shape) without
+// touching the internal coordinator<->worker wire protocol, and vice versa.
+service BuildService {
+  // Same Day 1 liveness check as WorkerService.Ping. Deliberately NOT the
+  // same .proto message type as WorkerService's Ping — these are two
+  // independent RPC boundaries that happen to both need a trivial
+  // "are you up" call today; sharing a message type would couple their
+  // evolution for no real reason.
+  rpc Ping(PingRequest) returns (PingResponse);
+}
+
+message PingRequest {
+  string caller_id = 1;
+}
+
+message PingResponse {
+  string coordinator_id = 1;
+}

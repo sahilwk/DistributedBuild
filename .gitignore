@@ -1,0 +1,10 @@
+build/
+build-*/
+.buildlogs/
+vcpkg/buildtrees/
+vcpkg/downloads/
+vcpkg/installed/
+vcpkg/packages/
+vcpkg_installed/
+.DS_Store
+*.log
